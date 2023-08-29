@@ -1,6 +1,14 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import '../styles/globals.css';
+import { persistor, store } from '../redux/store/store';
+import withRedux from 'next-redux-wrapper';
+import { PersistGate } from 'redux-persist/integration/react';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function MyApp({ Component, pageProps }) {
+   return (
+      <PersistGate loading={null} persistor={persistor}>
+         <Component {...pageProps} />
+      </PersistGate>
+   );
 }
+const makeStore = () => store;
+export default withRedux(makeStore)(MyApp);
